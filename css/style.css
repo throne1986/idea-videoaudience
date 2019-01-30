@@ -1,0 +1,144 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+/*Page styles*/
+body {
+  height: 100%;
+  margin: 0;
+}
+  /* .main-container{
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin:0px;
+  padding: 30px;
+  flex-direction: row-reverse;;
+} */
+
+iframe#playervideo {
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+  display: block;
+  overflow: hidden;
+  border: none;
+  margin-top: 50px;
+}
+
+iframe#videoframe {
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+  display: block;
+  overflow: hidden;
+  border: none;
+  margin-top: 50px;
+}
+
+#videowrapper {
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+video {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+canvas {
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+#testform {
+  padding: 10px;
+  position: absolute;
+  top: 50%;
+  display: none;
+}
+
+fieldset#fieldsetForm {
+  display: none;
+}
+
+.boxes {
+  margin: auto;
+  padding: 50px;
+  background: #484848;
+}
+
+    /*Checkboxes styles*/
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"] + label {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 20px;
+  font: 14px/20px 'Open Sans', Arial, sans-serif;
+  color: #ddd;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+input[type="checkbox"] + label:last-child {
+  margin-bottom: 0;
+}
+
+input[type="checkbox"] + label:before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #6cc0e5;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: .6;
+  -webkit-transition: all .12s, border-color .08s;
+  transition: all .12s, border-color .08s;
+}
+
+input[type="checkbox"]:checked + label:before {
+  width: 10px;
+  top: -5px;
+  left: 5px;
+  border-radius: 0;
+  opacity: 1;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.videoWrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      padding-top: 25px;
+      height: 0;
+      }
+      .videoWrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      width: 100%;
+      max-width: 1024px;
+      margin: 0 auto;
+      display: block;
+      overflow: hidden;
+      border: none;
+      margin-top: 50px;
+}
