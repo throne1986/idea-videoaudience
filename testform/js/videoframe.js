@@ -21,8 +21,9 @@
 
 
    var moviePowitalny = "https://skodavideo.s3-eu-west-1.amazonaws.com/skoda_gos_1168_m_11549.mp4";
-   var movieCzekanie ="./videos/formularz_1/czekanie.mp4"
+   var movieCzekanie = "./videos/formularz_1/czekanie.mp4"
    var movieClient_name1 = "./videos/formularz_1/formularz_imie_long_3.mp4"
+   var movieClient_nameError = "./videos/formularz_1/blad_kod_pocztowy.mp4"
    var movieClient_name2 = "./videos/formularz_1/imie_to_proste_wpisz_swoje_imie.mp4"
    var movieClient_name3 = "./videos/formularz_1/imie_imie.mp4"
    var movieClient_surname1 = "./videos/formularz_1/formularz_nazwisko_long.mp4"
@@ -35,6 +36,21 @@
    var movieCheckbox = "./videos/formularz_1/formularz_zgody_long.mp4"
    var movieThanks = "./videos/formularz_1/wyslij.mp4"
 
+   // files containing inputs variables
+   var JSON = [{
+           "client_name": "kurwa"
+       },
+       {
+           "client_name": "Spierdalaj"
+       },
+       {
+           "client_name": "dupa"
+       },
+       {
+           "client_name": "pojebany"
+       }
+   ];
+   var hasMatch = false;
 
 
 
@@ -229,9 +245,9 @@
            case "client_nameSlide":
                openClient_name(params);
                break;
-           case "client_nameSlideTyping":
-               openClient_name_Typing(params);
-               break;
+               //    case "client_nameSlideTyping":
+               //         openClient_nameTyping(params);
+               //        break;
            case "client_surnameSlide":
                openclient_surname(params);
                break;
@@ -264,258 +280,279 @@
    var audioLoaded = false;
 
    function openClient_name(_params) {
-       playVideo(movieClient_name1);
-
-           setTimeout(function(){
-               playVideo(movieClient_name1)
-           }, 22000);
-
-          setTimeout(function(){
-              playVideo(movieClient_name2)
-            }, 30000);
-   }
-
-   function openClient_name_Typing() {
-       playVideo(movieCzekanie)
-   }
-
-   function openclient_surname(_params) {
-       playVideo(movieClient_surname1);
-
-           setTimeout(function(){
-               playVideo(movieClient_surname2)
-           }, 22000);
-
-          setTimeout(function(){
-              playVideo(movieClient_surname3)
-            }, 26000);
-   }
-
-   function openClient_mobile(_params) {
-       playVideo(movieClient_mobile1);
-   }
-
-   function openNip(_params) {
-       playVideo(movieNip1);
-   }
-
-   function openClient_code(_params) {
-       playVideo(movieClient_code1);
-   }
-
-   function openClient_email(_params) {
-       playVideo(movieClient_email1)
-   }
-
-   function opencheckbox_all(_params) {
-       playVideo(movieCheckbox)
-   }
-
-   function openSubmit(_params) {
-       playVideo(movieThanks);
-   }
-
-   function openPowitalny(_params) {
-
-       clearAllCanvas();
-
-       params = _params;
-
-       sampleImage = new Image();
-       sampleImage.onload = function () {
-           imageLoaded = true;
-           checkIfAllLoaded();
-       }
-       sampleImage.src = "images/download.jpg";
-
-       // sound = new Howl({
-       //   src: ['audio/1001.mp3']
-       // });
-
-       // audioArray['nameStartboard'] = { position:3, howl: sound, duration: 0 };
-
-       // sound.once('load', function(){
-
-       //     sound.seek(0.4);
-       //     sound.play();
-
-       //     audioLoaded = true;
-       //     checkIfAllLoaded();
-       // });
-
-
-
-
-
-   }
-
-   function checkIfAllLoaded() {
-       //if( imageLoaded==true && audioLoaded==true ) {
-       if (imageLoaded == true) {
-           for (var audio in audioArray) {
-               console.log(audio);
-               audioArray[audio].duration = audioArray[audio].howl.duration();
-               audioArray[audio].state = "paused";
-           }
-
-           openPowitalnyContentReady();
-       }
-   }
-
-   function openPowitalnyContentReady() {
-
-       var circle = new createjs.Shape();
-       circle.graphics.beginFill("DeepSkyBlue").drawRect(0, 0, 50, 100);
-       circle.x = 100;
-       circle.y = 100;
-       stage.addChild(circle);
-
-       var circleTween = createjs.Tween.get(circle).to({
-           x: 900
-       }, 1000, createjs.Ease.getPowInOut(4));
-       timeline.addTween(circleTween);
-
-
-       var obrazek = new createjs.Bitmap(sampleImage);
-       obrazek.x = 512;
-       obrazek.y = 150;
-       obrazek.regX = sampleImage.width / 2;
-       obrazek.regY = sampleImage.height / 2;
-       stage.addChild(obrazek);
-
-       var obrazekTween = createjs.Tween.get(obrazek).to({
-           alpha: 0,
-           scale: 0.1
-       }, 0).wait(600).to({
-           alpha: 1,
-           scale: 0.4
-       }, 300).wait(4600).to({
-           alpha: 0,
-           scale: 0.1
-       }, 300);
-       timeline.addTween(obrazekTween);
-
-
-       obrazek.addEventListener("click", function () {
-           alert("Nie drażnij lwa");
-       });
-
-
-       var text = new createjs.Text(params.value, "bold 30px Arial", "#000000");
-       text.x = 1024 / 2;
-       text.y = 405;
-       text.alpha = 0;
-       text.textAlign = "center";
-       text.textBaseline = "alphabetic";
-
-       stage.addChild(text);
-
-       var textTween = createjs.Tween.get(text).to({
-           alpha: 0
-       }, 0, createjs.Ease.elasticOut()).wait(600).to({
-           alpha: 1
-       }, 300).wait(4600).to({
-           alpha: 0
-       }, 300, createjs.Ease.elasticIn());
-       timeline.addTween(textTween);
-
-       stage.update();
-
-       playVideo(moviePowitalny);
-       //playVideo(movie2);
-
-   }
-
-   function clearAllCanvas() {
-       // timeline.removeAll();
-       stage.removeAllChildren();
-       audioArray = []
-
-   }
-
-   function playVideo(src) {
-
-
-       console.log("--------- playVideo 3");
-
-       $(".fader").addClass("switchvideo");
-       console.log("Fade in started: " + $("video")[0].currentTime);
-       $(".fader").animate({
-           opacity: 1
-       }, 333, function () {
-           console.log("Fade in finished: " + $("video")[0].currentTime);
-
-           $("#playervideo").attr("src", src);
-           $("#playervideo")[0].muted = false;
-
-           if (autoplay == true) {
-
-               var playPromise = $("#playervideo")[0].play();
-
-               if (playPromise !== undefined) {
-
-                   playPromise.then(function () {
-                       $("video")[0].addEventListener("timeupdate", checkVideoReady);
-
-                   }).catch(function () {
-
-                       if (autoplay == true) {
-                           $("#video-unmute-button").addClass("show");
-                           $("#playervideo")[0].muted = true;
-                           var playPromise2 = $("#playervideo")[0].play();
-
-                           playPromise2.then(function () {
-                               $("video")[0].addEventListener("timeupdate", checkVideoReady);
-                           }).catch(function () {
-                               $("#video-start-button").addClass("show");
-                               $("#video-start-button").on("click", function () {
-                                   $("#playervideo")[0].muted = false;
-                                   $("#playervideo")[0].play();
-                                   $("#video-start-button").removeClass("show");
-                                   $("video")[0].addEventListener("timeupdate", checkVideoReady);
-
-                               });
-                           });
-
-                           console.log("pause force");
-                       } else {
-
-                       }
-                   });
+       for (var index = 0; index < JSON.length; ++index) {
+           var names = JSON[index];
+           if (names.client_name == "kurwa" || names.client_name == "spierdalaj" || names.client_name == "dupa") {
+               hasMatch = true;
+               playVideo(movieClient_nameError);
+               if (!_params.value.length) {
+                   playVideo(movieClient_name1);
                } else {
-
-                   $("video")[0].addEventListener("timeupdate", checkVideoReady);
+                   playVideo(movieCzekanie);
 
                }
-           } else {
-
            }
-       });
+       }
+    }
 
-   }
+       //    function openClient_nameTyping(_params){
+       //        playVideo(movieCzekanie);
+       //    }
 
-
-   function checkVideoReady() {
-       console.log("checkVideoReady");
-       //  if( $(".fader").hasClass("switchvideo") && !$(".fader").hasClass("fadingout") ) {
-
-       if ($("video")[0].currentTime) {
-           if ($("video")[0].currentTime > 0) {
-
-               $("video")[0].removeEventListener("timeupdate", checkVideoReady);
-
-               //  $(".fader").addClass("fadingout");
-               console.log("Fade out started: " + $("video")[0].currentTime);
-               $(".fader").animate({
-                   opacity: 0
-               }, 150, function () {
-                   console.log("Fade out finished: " + $("video")[0].currentTime);
-                   //  $(".fader").removeClass("switchvideo");
-                   //  $(".fader").removeClass("fadingout");
-               });
+       function openclient_surname(_params) {
+           if (!_params.value.length) {
+               playVideo(movieClient_surname1);
+           } else {
+               playVideo(movieCzekanie);
 
            }
        }
-       // }
 
-   }
+       function openClient_mobile(_params) {
+           if (!_params.value.length) {
+               playVideo(movieClient_mobile1);
+           } else {
+               playVideo(movieCzekanie);
+
+           }
+       }
+
+       function openNip(_params) {
+           if (!_params.value.length) {
+               playVideo(movieNip1);
+           } else {
+               playVideo(movieCzekanie);
+
+           }
+       }
+
+       function openClient_code(_params) {
+           if (!_params.value.length) {
+               playVideo(movieClient_code1);
+           } else {
+               playVideo(movieCzekanie);
+
+           }
+       }
+
+       function openClient_email(_params) {
+           if (!_params.value.length) {
+               playVideo(movieClient_email1);
+           } else {
+               playVideo(movieCzekanie);
+
+           }
+       }
+
+       function opencheckbox_all(_params) {
+           playVideo(movieCheckbox);
+       }
+
+       function openSubmit(_params) {
+           playVideo(movieThanks);
+       }
+
+       function openPowitalny(_params) {
+
+           clearAllCanvas();
+
+           params = _params;
+
+           sampleImage = new Image();
+           sampleImage.onload = function () {
+               imageLoaded = true;
+               checkIfAllLoaded();
+           }
+           sampleImage.src = "images/download.jpg";
+
+           // sound = new Howl({
+           //   src: ['audio/1001.mp3']
+           // });
+
+           // audioArray['nameStartboard'] = { position:3, howl: sound, duration: 0 };
+
+           // sound.once('load', function(){
+
+           //     sound.seek(0.4);
+           //     sound.play();
+
+           //     audioLoaded = true;
+           //     checkIfAllLoaded();
+           // });
+
+
+
+
+
+       }
+
+       function checkIfAllLoaded() {
+           //if( imageLoaded==true && audioLoaded==true ) {
+           if (imageLoaded == true) {
+               for (var audio in audioArray) {
+                   console.log(audio);
+                   audioArray[audio].duration = audioArray[audio].howl.duration();
+                   audioArray[audio].state = "paused";
+               }
+
+               openPowitalnyContentReady();
+           }
+       }
+
+       function openPowitalnyContentReady() {
+
+           var circle = new createjs.Shape();
+           circle.graphics.beginFill("DeepSkyBlue").drawRect(0, 0, 50, 100);
+           circle.x = 100;
+           circle.y = 100;
+           stage.addChild(circle);
+
+           var circleTween = createjs.Tween.get(circle).to({
+               x: 900
+           }, 1000, createjs.Ease.getPowInOut(4));
+           timeline.addTween(circleTween);
+
+
+           var obrazek = new createjs.Bitmap(sampleImage);
+           obrazek.x = 512;
+           obrazek.y = 150;
+           obrazek.regX = sampleImage.width / 2;
+           obrazek.regY = sampleImage.height / 2;
+           stage.addChild(obrazek);
+
+           var obrazekTween = createjs.Tween.get(obrazek).to({
+               alpha: 0,
+               scale: 0.1
+           }, 0).wait(600).to({
+               alpha: 1,
+               scale: 0.4
+           }, 300).wait(4600).to({
+               alpha: 0,
+               scale: 0.1
+           }, 300);
+           timeline.addTween(obrazekTween);
+
+
+           obrazek.addEventListener("click", function () {
+               alert("Nie drażnij lwa");
+           });
+
+
+           var text = new createjs.Text(params.value, "bold 30px Arial", "#000000");
+           text.x = 1024 / 2;
+           text.y = 405;
+           text.alpha = 0;
+           text.textAlign = "center";
+           text.textBaseline = "alphabetic";
+
+           stage.addChild(text);
+
+           var textTween = createjs.Tween.get(text).to({
+               alpha: 0
+           }, 0, createjs.Ease.elasticOut()).wait(600).to({
+               alpha: 1
+           }, 300).wait(4600).to({
+               alpha: 0
+           }, 300, createjs.Ease.elasticIn());
+           timeline.addTween(textTween);
+
+           stage.update();
+
+           playVideo(moviePowitalny);
+           //playVideo(movie2);
+
+       }
+
+       function clearAllCanvas() {
+           // timeline.removeAll();
+           stage.removeAllChildren();
+           audioArray = []
+
+       }
+
+       function playVideo(src) {
+
+
+           console.log("--------- playVideo 3");
+
+           $(".fader").addClass("switchvideo");
+           console.log("Fade in started: " + $("video")[0].currentTime);
+           $(".fader").animate({
+               opacity: 1
+           }, 333, function () {
+               console.log("Fade in finished: " + $("video")[0].currentTime);
+
+               $("#playervideo").attr("src", src);
+               $("#playervideo")[0].muted = false;
+
+               if (autoplay == true) {
+
+                   var playPromise = $("#playervideo")[0].play();
+
+                   if (playPromise !== undefined) {
+
+                       playPromise.then(function () {
+                           $("video")[0].addEventListener("timeupdate", checkVideoReady);
+
+                       }).catch(function () {
+
+                           if (autoplay == true) {
+                               $("#video-unmute-button").addClass("show");
+                               $("#playervideo")[0].muted = true;
+                               var playPromise2 = $("#playervideo")[0].play();
+
+                               playPromise2.then(function () {
+                                   $("video")[0].addEventListener("timeupdate", checkVideoReady);
+                               }).catch(function () {
+                                   $("#video-start-button").addClass("show");
+                                   $("#video-start-button").on("click", function () {
+                                       $("#playervideo")[0].muted = false;
+                                       $("#playervideo")[0].play();
+                                       $("#video-start-button").removeClass("show");
+                                       $("video")[0].addEventListener("timeupdate", checkVideoReady);
+
+                                   });
+                               });
+
+                               console.log("pause force");
+                           } else {
+
+                           }
+                       });
+                   } else {
+
+                       $("video")[0].addEventListener("timeupdate", checkVideoReady);
+
+                   }
+               } else {
+
+               }
+           });
+
+       }
+
+
+       function checkVideoReady() {
+           console.log("checkVideoReady");
+           //  if( $(".fader").hasClass("switchvideo") && !$(".fader").hasClass("fadingout") ) {
+
+           if ($("video")[0].currentTime) {
+               if ($("video")[0].currentTime > 0) {
+
+                   $("video")[0].removeEventListener("timeupdate", checkVideoReady);
+
+                   //  $(".fader").addClass("fadingout");
+                   console.log("Fade out started: " + $("video")[0].currentTime);
+                   $(".fader").animate({
+                       opacity: 0
+                   }, 150, function () {
+                       console.log("Fade out finished: " + $("video")[0].currentTime);
+                       //  $(".fader").removeClass("switchvideo");
+                       //  $(".fader").removeClass("fadingout");
+                   });
+
+               }
+           }
+           // }
+
+       }

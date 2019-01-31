@@ -7,15 +7,18 @@
             $("input#client_name").on("focus", function (e) {
                 document.getElementById('videoframe').contentWindow.postMessage( "event=fieldchanged&fieldtype=" + "client_name" + "&value=" + $("input#client_name").val(), "*");
                 e.preventDefault();
+                
+               
             });
-            $("input#client_name").on("keyup", function (e) {
-                document.getElementById('videoframe').contentWindow.postMessage( "event=ontyping&fieldtype=" + "client_name" + "&value=" + $("input#client_name").val(), "*");
-                e.preventDefault();
-            });
-            $("input#client_name").on("onchange", function (e) {
-                document.getElementById('videoframe').contentWindow.postMessage( "event=ontyping&fieldtype=" + "client_name" + "&value=" + $("input#client_name").val(), "*");
-                e.preventDefault();
-            });
+
+            // $("input#client_name").on("keyup", function (e) {
+            //     document.getElementById('videoframe').contentWindow.postMessage( "event=ontyping&fieldtype=" + "client_name" + "&value=" + $("input#client_name").val(), "*");
+            //     e.preventDefault();
+            // });
+            // $("input#client_name").on("onchange", function (e) {
+            //     document.getElementById('videoframe').contentWindow.postMessage( "event=ontyping&fieldtype=" + "client_name" + "&value=" + $("input#client_name").val(), "*");
+            //     e.preventDefault();
+            // });
 
 
             $("input#client_surname").on("focus", function () {
