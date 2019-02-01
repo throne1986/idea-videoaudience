@@ -6,24 +6,11 @@
 
    var autoplay = true;
 
-   //    var moviePowitalny = "https://skodavideo.s3-eu-west-1.amazonaws.com/skoda_gos_1168_m_11549.mp4";
-   //    var movieClient_name1 = "./videos/formularz_1/imie_wpisz_swoje_imie_gest.mp4"
-   //    var movieClient_name2 = "./videos/formularz_1/imie_to_proste_wpisz_swoje_imie.mp4"
-   //    var movieClient_name3 = "./videos/formularz_1/imie_imie.mp4"
-   //    var movieCzekanie ="./videos/formularz_1/czekanie.mp4"
-   //    var movieClient_surname1 = "./videos/formularz_1/nazwisko_a_teraz_wpisz_nazwisko.mp4"
-   //    var movieClient_surname2 = "./videos/formularz_1/client_surname_wpisz_swoje_client_surname.mp4"
-   //    var movieClient_surname3 = "./videos/formularz_1/client_surname_client_surname.mp4"
-   //    var movieNip1 = "./videos/formularz_1/nip_nip.mp4"
-   //    var movieClient_code1 = "./videos/formularz_1/kod_pocztowy_kod_pocztowy.mp4"
-   //    var movieClient_email1 ="./videos/formularz_1/email_adres_email.mp4"
-   //    var movieThanks = "./videos/formularz_1/wyslij.mp4"
-
-
    var moviePowitalny = "https://skodavideo.s3-eu-west-1.amazonaws.com/skoda_gos_1168_m_11549.mp4";
-   var movieCzekanie = "./videos/formularz_1/czekanie.mp4"
+   var movieCzekanie1 = "./videos/formularz_1/czekanie_1.mp4"
    var movieClient_name1 = "./videos/formularz_1/formularz_imie_long_3.mp4"
-   var movieClient_nameError = "./videos/formularz_1/blad_kod_pocztowy.mp4"
+   var movieClient_nameError = "./videos/formularz_1/ojojoj.mp4"
+   var movieClient_surnameError ="./videos/formularz_1/ojojoj.mp4"
    var movieClient_name2 = "./videos/formularz_1/imie_to_proste_wpisz_swoje_imie.mp4"
    var movieClient_name3 = "./videos/formularz_1/imie_imie.mp4"
    var movieClient_surname1 = "./videos/formularz_1/formularz_nazwisko_long.mp4"
@@ -32,27 +19,10 @@
    var movieClient_mobile1 = "./videos/formularz_1/formularz_nr_telefonu_long.mp4"
    var movieClient_email1 = "./videos/formularz_1/formularz_email_long.mp4"
    var movieClient_code1 = "./videos/formularz_1/formularz_kod_pocztowy_long.mp4"
+   var movieClient_codeError = "./videos/formularz_1/ojojoj.mp4"
    var movieNip1 = "./videos/formularz_1/formularz_nip_long.mp4"
    var movieCheckbox = "./videos/formularz_1/formularz_zgody_long.mp4"
    var movieThanks = "./videos/formularz_1/wyslij.mp4"
-
-   // files containing inputs variables
-   var JSON = [{
-           "client_name": "kurwa"
-       },
-       {
-           "client_name": "Spierdalaj"
-       },
-       {
-           "client_name": "dupa"
-       },
-       {
-           "client_name": "pojebany"
-       }
-   ];
-   var hasMatch = false;
-
-
 
    function init() {
        //define global variables
@@ -85,13 +55,13 @@
        //call the function to play a video
        playVideo(vid);
 
-       console.log("Hello! Your welcome message is " + welcomeMsg + " " + vid)
+     //  console.log("Hello! Your welcome message is " + welcomeMsg + " " + vid)
 
    }
    init();
 
    // creating animation
-   $(document).ready(function () {
+   $(document).ready(function() {
        stage = new createjs.Stage("videocanvas");
        timeline = new createjs.Timeline();
 
@@ -134,8 +104,6 @@
                    audioArray[audio].howl.pause();
                    audioArray[audio].state = "paused";
 
-
-
                } else if ($("#playervideo")[0].currentTime >= audioArray[audio].position && $("#playervideo")[0].currentTime < audioArray[audio].position + audioArray[audio].duration) {
 
                    console.log(2);
@@ -160,237 +128,137 @@
 
    }
 
+   var inputsFocusCounters = [];
+
    window.addEventListener("message", receiveMessage, false);
 
    function receiveMessage(eventPosted) {
 
        var values = eventPosted.data.split("&");
-       console.log(values);
        var event = values[0].split("=")[1];
        var fieldtype = values[1].split("=")[1];
        var value = values[2].split("=")[1];
-
-       console.log(event, fieldtype, value);
+       var result = values[3].split("=")[1];
 
        switch (event) {
-           case "fieldchanged":
-               switch (fieldtype) {
-                   case "client_name":
-                       openSlide("client_nameSlide", {
-                           value: value
-                       });
-                       break;
-                   case "client_surname":
-                       openSlide("client_surnameSlide", {
-                           value: value,
-                       });
-                       break;
-                   case "nip":
-                       openSlide("nipSlide", {
-                           value: value,
-                       });
-                       break;
-                   case "client_code":
-                       openSlide("client_codeSlide", {
-                           value: value,
-                       });
-                       break;
-                   case "client_email":
-                       openSlide("client_emailSlide", {
-                           value: value,
-                       });
-                       break;
-                   case "client_mobile":
-                       openSlide("client_mobileSlide", {
-                           value: value,
-                       });
-                       break;
-                   case "send_data":
-                       openSlide("submitSlide", {
-                           value: value,
-                       });
-                       break;
-                   case "check_all":
-                       openSlide("checkboxSlide", {
-                           value: value,
-                       });
-                   default:
-                       break;
-               }
-               break;
-           case "ontyping":
-               switch (fieldtype) {
-                   case 'client_name':
-                       openSlide("client_nameSlideTyping", {
-                           value: value
-                       });
-                       break;
-                   default:
+            case "focus":
+                if(!inputsFocusCounters[fieldtype]) inputsFocusCounters[fieldtype] = 0;
+                inputsFocusCounters[fieldtype] ++;
+                console.log(inputsFocusCounters[fieldtype]);
 
-               }
-               break;
+                if(inputsFocusCounters[fieldtype]>1) {
+                    sayWaiting();
+                } else {
+                    sayAbountField(fieldtype);
+                }
+                //openHitsVideo("client_surnameSlide");
+                break;
+            case "change":
+         
+                switch (result) {
+                    case "badword":
+                        sayOyOyOy();
+                        console.log("iframe: " + event + " / " + fieldtype + " - badword");
+                        break;
+                    case "error":
+                        sayFieldValidationError(fieldtype);
+                        console.log("iframe: " + event + " / " + fieldtype + " - error");
+                        break;
 
-           default:
-               console.log("Event not supported");
-               break;
+                    // case "correct":
+                    //     console.log("iframe: " + event + " / " + fieldtype + " - correct");
+                    //     break;
+                 
+                    default:
+
+                        break;
+                }
+
+                switch (fieldtype) {
+                  case "check_all":
+                    saycheckAllBoxVideo();
+                    break;
+
+                }
+                break;
+                
+            default:
+
+                break;
+            
        }
-
    }
 
-   function openSlide(slideName, params) {
-       switch (slideName) {
-           case "powitalny":
-               openPowitalny(params);
-               break;
-           case "client_nameSlide":
-               openClient_name(params);
-               break;
-               //    case "client_nameSlideTyping":
-               //         openClient_nameTyping(params);
-               //        break;
-           case "client_surnameSlide":
-               openclient_surname(params);
-               break;
-           case "nipSlide":
-               openNip(params);
-               break;
-           case "client_codeSlide":
-               openClient_code(params);
-               break;
-           case "client_emailSlide":
-               openClient_email(params);
-               break;
-           case "client_mobileSlide":
-               openClient_mobile(params);
-               break;
 
-           case "submitSlide":
-               openSubmit(params);
-               break;
-           case "checkboxSlide":
-               opencheckbox_all(params);
-               break;
-       }
+    var sayWaitingVideo = "./videos/formularz_1/czekanie_1.mp4";
+    function sayWaiting() {
+        playVideo( sayWaitingVideo );
+    }
+    var sayAbountVideos = [];
+    sayAbountVideos['client_name'] = "./videos/formularz_1/formularz_imie_long_3.mp4";
+    sayAbountVideos['client_surname'] = "./videos/formularz_1/formularz_nazwisko_long.mp4";
+    sayAbountVideos['client_mobile'] = "./videos/formularz_1/formularz_nr_telefonu_long.mp4";
+    sayAbountVideos['client_email'] = "./videos/formularz_1/formularz_email_long.mp4";
+    sayAbountVideos['client_code'] = "./videos/formularz_1/formularz_kod_pocztowy_long.mp4";
+    sayAbountVideos['nip'] = "./videos/formularz_1/formularz_nip_long.mp4";
+    function sayAbountField(fieldid) {
+        console.log( sayAbountVideos[fieldid] );
+        playVideo( sayAbountVideos[fieldid] );
+    }
+    var oyoyoyVideo = "./videos/formularz_1/ojojoj.mp4";
+    function sayOyOyOy() {
+        playVideo( oyoyoyVideo );
+    }
+    var sayFieldValidationErrorVideos = [];
+    sayFieldValidationErrorVideos['client_name'] = "./videos/formularz_1/ojojoj.mp4";
+    sayFieldValidationErrorVideos['client_surname'] = "./videos/formularz_1/ojojoj.mp4";
+    sayFieldValidationErrorVideos['client_mobile'] = "./videos/formularz_1/blad_numer_telefonu.mp4";
+    sayFieldValidationErrorVideos['client_email'] = "./videos/formularz_1/ojojoj.mp4";
+    sayFieldValidationErrorVideos['client_code'] = "./videos/formularz_1/blad_kod_pocztowy.mp4";
+    sayFieldValidationErrorVideos['nip'] = "./videos/formularz_1/ojojoj.mp4";
 
-   }
+  var checkAllBoxVideo ="./videos/formularz_1/zgody_niezbedne_zgody.mp4"
+  function saycheckAllBoxVideo(){
+      playVideo(checkAllBoxVideo)
+  }
+    
+    function sayFieldValidationError(fieldid) {
+        console.log( sayFieldValidationErrorVideos[fieldid] );
+        playVideo( sayFieldValidationErrorVideos[fieldid] );
+    }
    var sampleImage = null;
    var imageLoaded = false;
    var sound = null;
    var params = null;
    var audioLoaded = false;
 
-   function openClient_name(_params) {
-       var nameError = false;
-       for (var i = 0; i < JSON.length; i++) {
-           if (JSON[i].client_name.toLowerCase() === _params.value.toLowerCase()) {
-               nameError = true;
-           }
-       };
-       if (nameError) {
-           console.log('zle imie');
-           playVideo(movieClient_nameError);
-           return false;
+
+   // when video ends catch it and close iframe
+
+   $(document).ready(function() {
+
+
+       var md = new MobileDetect(window.navigator.userAgent);
+
+       //alert(md.phone());
+       if (md.phone() != null) {
+           var vid = document.getElementById("playervideo");
+           vid.addEventListener("ended", disableIframeOnPhone);
        }
-       if (!_params.value.length) {
-           console.log('brak imienia')
-           playVideo(movieClient_name1);
-       } else {
-           console.log('ok')
-           playVideo(movieCzekanie);
-       }
-   }
 
-   function openclient_surname(_params) {
-       if (!_params.value.length) {
-           playVideo(movieClient_surname1);
-       } else {
-           playVideo(movieCzekanie);
+   });
 
-       }
-       console.log(_params)
-   }
+   function disableIframeOnPhone() {
+       // parentpostmessage nie wysyłaj mi sdarzen i ukryj iframe z video
+       var vid = document.getElementById("playervideo");
+       vid.removeEventListener("ended", disableIframeOnPhone);
 
-   function openClient_mobile(_params) {
-       if (!_params.value.length) {
-           playVideo(movieClient_mobile1);
-       } else {
-           playVideo(movieCzekanie);
-
-       }
-       alert("PARAMS" + _params);
-   }
-
-   function openNip(_params) {
-       if (!_params.value.length) {
-           playVideo(movieNip1);
-       } else {
-           playVideo(movieCzekanie);
-
-       }
-   }
-
-   function openClient_code(_params) {
-       if (!_params.value.length) {
-           playVideo(movieClient_code1);
-       } else {
-           playVideo(movieCzekanie);
-
-       }
-   }
-
-   function openClient_email(_params) {
-       if (!_params.value.length) {
-           playVideo(movieClient_email1);
-       } else {
-           playVideo(movieCzekanie);
-
-       }
-   }
-
-   function opencheckbox_all(_params) {
-       playVideo(movieCheckbox);
-   }
-
-   function openSubmit(_params) {
-       playVideo(movieThanks);
-   }
-
-   function openPowitalny(_params) {
-
-       clearAllCanvas();
-
-       params = _params;
-
-       sampleImage = new Image();
-       sampleImage.onload = function () {
-           imageLoaded = true;
-           checkIfAllLoaded();
-       }
-       sampleImage.src = "images/download.jpg";
-
-       // sound = new Howl({
-       //   src: ['audio/1001.mp3']
-       // });
-
-       // audioArray['nameStartboard'] = { position:3, howl: sound, duration: 0 };
-
-       // sound.once('load', function(){
-
-       //     sound.seek(0.4);
-       //     sound.play();
-
-       //     audioLoaded = true;
-       //     checkIfAllLoaded();
-       // });
-
-
-
-
+       window.parent.postMessage("event=closeiframe", "*");
 
    }
+
 
    function checkIfAllLoaded() {
-       //if( imageLoaded==true && audioLoaded==true ) {
        if (imageLoaded == true) {
            for (var audio in audioArray) {
                console.log(audio);
@@ -402,70 +270,6 @@
        }
    }
 
-   function openPowitalnyContentReady() {
-
-       var circle = new createjs.Shape();
-       circle.graphics.beginFill("DeepSkyBlue").drawRect(0, 0, 50, 100);
-       circle.x = 100;
-       circle.y = 100;
-       stage.addChild(circle);
-
-       var circleTween = createjs.Tween.get(circle).to({
-           x: 900
-       }, 1000, createjs.Ease.getPowInOut(4));
-       timeline.addTween(circleTween);
-
-
-       var obrazek = new createjs.Bitmap(sampleImage);
-       obrazek.x = 512;
-       obrazek.y = 150;
-       obrazek.regX = sampleImage.width / 2;
-       obrazek.regY = sampleImage.height / 2;
-       stage.addChild(obrazek);
-
-       var obrazekTween = createjs.Tween.get(obrazek).to({
-           alpha: 0,
-           scale: 0.1
-       }, 0).wait(600).to({
-           alpha: 1,
-           scale: 0.4
-       }, 300).wait(4600).to({
-           alpha: 0,
-           scale: 0.1
-       }, 300);
-       timeline.addTween(obrazekTween);
-
-
-       obrazek.addEventListener("click", function () {
-           alert("Nie drażnij lwa");
-       });
-
-
-       var text = new createjs.Text(params.value, "bold 30px Arial", "#000000");
-       text.x = 1024 / 2;
-       text.y = 405;
-       text.alpha = 0;
-       text.textAlign = "center";
-       text.textBaseline = "alphabetic";
-
-       stage.addChild(text);
-
-       var textTween = createjs.Tween.get(text).to({
-           alpha: 0
-       }, 0, createjs.Ease.elasticOut()).wait(600).to({
-           alpha: 1
-       }, 300).wait(4600).to({
-           alpha: 0
-       }, 300, createjs.Ease.elasticIn());
-       timeline.addTween(textTween);
-
-       stage.update();
-
-       playVideo(moviePowitalny);
-       //playVideo(movie2);
-
-   }
-
    function clearAllCanvas() {
        // timeline.removeAll();
        stage.removeAllChildren();
@@ -474,16 +278,11 @@
    }
 
    function playVideo(src) {
-
-
-       console.log("--------- playVideo 3");
-
        $(".fader").addClass("switchvideo");
-       console.log("Fade in started: " + $("video")[0].currentTime);
+
        $(".fader").animate({
            opacity: 1
-       }, 333, function () {
-           console.log("Fade in finished: " + $("video")[0].currentTime);
+       }, 333, function() {
 
            $("#playervideo").attr("src", src);
            $("#playervideo")[0].muted = false;
@@ -494,21 +293,21 @@
 
                if (playPromise !== undefined) {
 
-                   playPromise.then(function () {
+                   playPromise.then(function() {
                        $("video")[0].addEventListener("timeupdate", checkVideoReady);
 
-                   }).catch(function () {
+                   }).catch(function() {
 
                        if (autoplay == true) {
                            $("#video-unmute-button").addClass("show");
                            $("#playervideo")[0].muted = true;
                            var playPromise2 = $("#playervideo")[0].play();
 
-                           playPromise2.then(function () {
+                           playPromise2.then(function() {
                                $("video")[0].addEventListener("timeupdate", checkVideoReady);
-                           }).catch(function () {
+                           }).catch(function() {
                                $("#video-start-button").addClass("show");
-                               $("#video-start-button").on("click", function () {
+                               $("#video-start-button").on("click", function() {
                                    $("#playervideo")[0].muted = false;
                                    $("#playervideo")[0].play();
                                    $("#video-start-button").removeClass("show");
@@ -517,7 +316,6 @@
                                });
                            });
 
-                           console.log("pause force");
                        } else {
 
                        }
@@ -536,45 +334,40 @@
 
 
    function checkVideoReady() {
-       console.log("checkVideoReady");
-       //  if( $(".fader").hasClass("switchvideo") && !$(".fader").hasClass("fadingout") ) {
-
        if ($("video")[0].currentTime) {
            if ($("video")[0].currentTime > 0) {
 
                $("video")[0].removeEventListener("timeupdate", checkVideoReady);
 
-               //  $(".fader").addClass("fadingout");
-               console.log("Fade out started: " + $("video")[0].currentTime);
                $(".fader").animate({
                    opacity: 0
-               }, 150, function () {
-                   console.log("Fade out finished: " + $("video")[0].currentTime);
-                   //  $(".fader").removeClass("switchvideo");
-                   //  $(".fader").removeClass("fadingout");
+               }, 150, function() {
                });
 
            }
        }
-       // }
 
    }
+   var customPlayer = document.getElementById("playervideo");
 
-   //        var md = new MobileDetect(
-   //         'Mozilla/5.0 (Linux; U; Android 4.0.3; en-in; SonyEricssonMT11i' +
-   //         ' Build/4.1.A.0.562) AppleWebKit/534.30 (KHTML, like Gecko)' +
-   //         ' Version/4.0 Mobile Safari/534.30');
+   $("#customPlayer").on("click", function () {
+        if (customPlayer.paused) 
+          customPlayer.play(); 
+        else 
+          customPlayer.pause(); 
+   });
 
-   //     // more typically we would instantiate with 'window.navigator.userAgent'
-   //     // as user-agent; this string literal is only for better understanding
+   
+   $("#customPlayerMute").on("click", function(){
+    if(customPlayer.muted){
+        customPlayer.muted = false;
+        $("#customPlayerMute").hide();
+        $("#customPlayerVoice").show();
+     
+    } else {
+        customPlayer.muted = true;
+        $("#customPlayerMute").show();
+        $("#customPlayerVoice").hide();
+    }
 
-   //    alert( md.mobile() );          // 'Sony'
-   //    alert( md.phone() );           // 'Sony'
-   //    alert( md.tablet() );          // null
-   //    alert( md.userAgent() );       // 'Safari'
-   //    alert( md.os() );              // 'AndroidOS'
-   //    alert( md.is('iPhone') );      // false
-   //     console.log( md.is('bot') );         // false
-   //     console.log( md.version('Webkit') );         // 534.3
-   //     console.log( md.versionStr('Build') );       // '4.1.A.0.562'
-   //     console.log( md.match('playstation|xbox') ); // false
+})

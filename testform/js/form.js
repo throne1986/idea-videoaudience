@@ -1,69 +1,107 @@
 //form script
+var dictionaryVulgArray = [
+    "kurwa",
+    "dziwka",
+    "pizda",
+    "fiut",
+    "szmata",
+    "kutas",
+    "spierdalaj",
+    "pojebany",
+    "cycki",
+    "dupa"
+];
+
+function findBadWord(str) {
+    var res = "correct";
+    if (dictionaryVulgArray.indexOf(str) > -1) {
+        res = "badword";
+    }
+    return res;
+}
+
+window.addEventListener("message", receiveMessageFromIframe, false);
+
+function receiveMessageFromIframe(msg) {
+
+    var values = msg.data.split("&");
+    var event = values[0].split("=")[1];
+    if (event == "closeiframe") {
+        document.getElementById('videoframe').remove();
+    }
+}
+$(document).ready(function() {
+    $(window).resize(resizeIframe);
+    $(window).resize();
+
+    $("input#client_name, input#client_surname,input#client_mobile,input#client_email,input#client_code,input#nip").on("focus", function(e) {
+        console.log("parent:    FOCUS on: " + $(this).attr("id"));
+        var result = "correct";
+
+        document.getElementById('videoframe').contentWindow.postMessage("event=focus&fieldtype=" + $(this).attr("id") + "&value=" + $(this).val() + "&result=" + result, "*");
+
+    });
+
+    $("input#client_name, input#client_surname,input#client_mobile,input#client_email,input#client_code,input#nip").on("change", function(e) {
+        console.log("parent:    CHANGE on: " + $(this).attr("id"));
+
+        var result = findBadWord($(this).val());
+        if (result == "correct") {
+            switch ($(this).attr("id")) {
+                case "client_name":
+                    if (!isNaN($(this).val())) {
+                        result = "error";
+                    }
+                    break;
+                case "client_surname":
+                    if (!isNaN($(this).val())) {
+                        result = "error";
+                    }
+                    break;
+                case "client_email":
+                    if (!isNaN($(this).val())) {
+                        result = "error";
+                    }
+                    break;
 
 
-        $(document).ready(function () {
-            $(window).resize(resizeIframe);
-            $(window).resize();
-            $("input#client_name").on("focus", function (e) {
-                document.getElementById('videoframe').contentWindow.postMessage( "event=fieldchanged&fieldtype=" + "client_name" + "&value=" + $("input#client_name").val(), "*");
-                e.preventDefault();
-                
-               
-            });
-            $("input#client_name").on("keyup", function (e) {
-                document.getElementById('videoframe').contentWindow.postMessage( "event=fieldchanged&fieldtype=" + "client_name" + "&value=" + $("input#client_name").val(), "*");
-                e.preventDefault();
-            });
 
-            // $("input#client_name").on("keyup", function (e) {
-            //     document.getElementById('videoframe').contentWindow.postMessage( "event=ontyping&fieldtype=" + "client_name" + "&value=" + $("input#client_name").val(), "*");
-            //     e.preventDefault();
-            // });
-            // $("input#client_name").on("onchange", function (e) {
-            //     document.getElementById('videoframe').contentWindow.postMessage( "event=ontyping&fieldtype=" + "client_name" + "&value=" + $("input#client_name").val(), "*");
-            //     e.preventDefault();
-            // });
-
-
-            $("input#client_surname").on("focus", function () {
-                document.getElementById('videoframe').contentWindow.postMessage( "event=fieldchanged&fieldtype=" + "client_surname" + "&value=" + $("input#client_surname").val(), "*");
-            });
-
-
-            $("input#client_mobile").on("focus", function () {
-                document.getElementById('videoframe').contentWindow.postMessage( "event=fieldchanged&fieldtype=" + "client_mobile" + "&value=" + $("input#client_mobile").val(), "*");
-            });
-            $("input#nip").on("focus", function () {
-                document.getElementById('videoframe').contentWindow.postMessage( "event=fieldchanged&fieldtype=" + "nip" + "&value=" + $("input#nip").val(), "*");
-            });
-
-            $("input#client_code").on("focus", function () {
-                document.getElementById('videoframe').contentWindow.postMessage( "event=fieldchanged&fieldtype=" + "client_code" + "&value=" + $("input#client_code").val(), "*");
-            });
-
-            // play a video after the user enter an input client_email works perfect
-            $("input#client_email").on("focus", function () {
-                document.getElementById('videoframe').contentWindow.postMessage( "event=fieldchanged&fieldtype=" + "client_email" + "&value=" + $("input#client_email").val(), "*");
-            });
-
-            $("input#send").on("onlick", function () {
-                if(this.onclick === true){
-                    alert('clicked');
-                }
-                document.getElementById('videoframe').contentWindow.postMessage( "event=fieldchanged&fieldtype="  + "send" + "&value=" + $("input#send").val(), "*");
-            });
-
-            $("input#check_all").on("change", function () {
-                if(this.checked === true){
-                document.getElementById('videoframe').contentWindow.postMessage( "event=fieldchanged&fieldtype=" + "check_all" + "&value=" + $("input#check_all").val(), "*");
-                }
-            });
-    
-
-        });
-
-        function resizeIframe() {
-            console.log($("iframe#videoframe").width()*3/4 );
-            $("iframe#videoframe").height( $("iframe#videoframe").width()*3/4 );
-
+                case "client_mobile":
+                    if (isNaN($(this).val())) {
+                        result = "error";
+                    }
+                    break;
+                case "client_code":
+                    if (isNaN($(this).val())) {
+                        result = "error";
+                    }
+                    break;
+                case "nip":
+                    if (isNaN($(this).val())) {
+                        result = "error";
+                    }
+                    break;
+            }
         }
+
+        document.getElementById('videoframe').contentWindow.postMessage("event=change&fieldtype=" + $(this).attr("id") + "&value=" + $(this).val() + "&result=" + result, "*");
+
+    });
+
+    $("input#check_all").on("change", function () {
+        if(this.checked === true){
+            console.log(this.checked)
+            document.getElementById('videoframe').contentWindow.postMessage("event=change&fieldtype=" + $(this).attr("id") + "&value=" + $(this).val() + "&result=" + "", "*");
+        }
+    });
+
+ 
+
+
+});
+
+function resizeIframe() {
+    //  console.log($("iframe#videoframe").width()*3/4 );
+    $("iframe#videoframe").height($("iframe#videoframe").width() * 3 / 4);
+
+}
