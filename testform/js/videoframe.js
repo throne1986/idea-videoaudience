@@ -23,7 +23,7 @@
    var movieNip1 = "./videos/formularz_1/formularz_nip_long.mp4"
    var movieCheckbox = "./videos/formularz_1/formularz_zgody_long.mp4"
    var movieThanks = "./videos/formularz_1/wyslij.mp4"
-
+   var movieSendData = "./videos/formularz_1/wyslij.mp4"
    function init() {
        //define global variables
        var welcomeMovie1 = "./videos/formularz_1/przywitanie_5-10_konto.mp4"
@@ -351,10 +351,13 @@
    var customPlayer = document.getElementById("playervideo");
 
    $("#customPlayer").on("click", function () {
-        if (customPlayer.paused) 
+        if (customPlayer.paused){
+          customPlayer.currentTime =0;      
           customPlayer.play(); 
-        else 
+        }
+        else {
           customPlayer.pause(); 
+        }
    });
 
    
@@ -371,3 +374,17 @@
     }
 
 })
+
+// $(function() {
+//     $('.form').submit(function(e) {
+//         e.preventDefault();
+//         var isValid = true;
+//         $('.form input, .form textarea, .form select').each(function() {
+//           if ( $(this).val() === '' )
+//               isValid = false;
+//         });
+//         if (isValid) {
+//            playVideo(movieSendData);
+//         }
+//      });
+//    });
