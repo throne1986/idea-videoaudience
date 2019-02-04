@@ -11,7 +11,7 @@ var dictionaryVulgArray = [
     "cycki",
     "dupa"
 ];
-
+var waitingTimeout = null;
 function findBadWord(str) {
     var res = "correct";
     if (dictionaryVulgArray.indexOf(str) > -1) {
@@ -37,14 +37,26 @@ $(document).ready(function() {
     $("input#client_name, input#client_surname,input#client_mobile,input#client_email,input#client_code,input#nip").on("focus", function(e) {
         console.log("parent:    FOCUS on: " + $(this).attr("id"));
         var result = "correct";
-
+        clearTimeout(waitingTimeout);
         document.getElementById('videoframe').contentWindow.postMessage("event=focus&fieldtype=" + $(this).attr("id") + "&value=" + $(this).val() + "&result=" + result, "*");
 
     });
 
+    $("input#client_name, input#client_surname,input#client_mobile,input#client_email,input#client_code,input#nip").on("keyup", function(e) {
+        
+
+        clearTimeout(waitingTimeout);
+        waitingTimeout = setTimeout(function () {
+            console.log("parent:    KEYUP on: " + $(this).attr("id"));
+            var result = "correct";
+           document.getElementById('videoframe').contentWindow.postMessage("event=keyup&fieldtype=" + $(this).attr("id") + "&value=" + $(this).val() + "&result=" + result, "*");
+        
+        },2000);
+    });
+
     $("input#client_name, input#client_surname,input#client_mobile,input#client_email,input#client_code,input#nip").on("change", function(e) {
         console.log("parent:    CHANGE on: " + $(this).attr("id"));
-
+        clearTimeout(waitingTimeout);
         var result = findBadWord($(this).val());
         if (result == "correct") {
             switch ($(this).attr("id")) {
@@ -67,12 +79,14 @@ $(document).ready(function() {
 
 
                 case "client_mobile":
-                    if (isNaN($(this).val())) {
+                    var patternMobile = /^\d{9}$/;
+                    if (!$(this).val().match(patternMobile)){
                         result = "error";
                     }
                     break;
                 case "client_code":
-                    if (isNaN($(this).val())) {
+                var patternPostalCode =/^\[0-9]{2}\-[0-9]{3}/;
+                  if (!$(this).val().match(patternPostalCode)){
                         result = "error";
                     }
                     break;

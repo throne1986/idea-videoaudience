@@ -164,3 +164,6 @@ input[type="checkbox"]:checked + label:before {
   top: 0px;
   right: 0px;
 }
+video {
+  pointer-events: none;
+}
