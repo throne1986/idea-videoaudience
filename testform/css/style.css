@@ -38,7 +38,7 @@ iframe#videoframe {
 
 #videowrapper {
   width: 100%;
-  max-width: 1024px;
+  /* max-width: 1024px; */
   margin: 0 auto;
   position: relative;
   overflow: hidden;
@@ -166,4 +166,8 @@ input[type="checkbox"]:checked + label:before {
 }
 video {
   pointer-events: none;
+}
+
+body{
+  overflow: hidden;
 }

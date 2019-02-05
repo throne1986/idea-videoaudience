@@ -49,7 +49,7 @@
 @font-face {
 	font-family: 'HelveticaNeue';
 	src: url('webfonts/2EA76E_0_0.eot');
-	src: url('webfonts/2EA76E_0_0d41d.eot?#iefix') format('embedded-opentype'),url('webfonts/2EA76E_0_0.woff2') format('woff2'),url('webfonts/2EA76E_0_0.woff') format('woff'),url('webfonts/2EA76E_0_0.ttf') format('truetype');
+	src: url('webfonts/2EA76E_0_0d41dd41d.eot?#iefix') format('embedded-opentype'),url('webfonts/2EA76E_0_0.html') format('woff2'),url('webfonts/2EA76E_0_0-2.html') format('woff'),url('webfonts/2EA76E_0_0-3.html') format('truetype');
 	font-weight: 300;
 }
  
@@ -59,7 +59,7 @@
 @font-face {
 	font-family: 'HelveticaNeue';
 	src: url('webfonts/2EAE01_0_0.eot');
-	src: url('webfonts/2EAE01_0_0d41d.eot?#iefix') format('embedded-opentype'),url('webfonts/2EAE01_0_0.woff2') format('woff2'),url('webfonts/2EAE01_0_0.woff') format('woff'),url('webfonts/2EAE01_0_0.ttf') format('truetype');
+	src: url('webfonts/2EAE01_0_0d41dd41d.eot?#iefix') format('embedded-opentype'),url('webfonts/2EAE01_0_0.html') format('woff2'),url('webfonts/2EAE01_0_0-2.html') format('woff'),url('webfonts/2EAE01_0_0-3.html') format('truetype');
 	font-weight: bold;
 }
  
@@ -67,7 +67,7 @@
 @font-face {
 	font-family: 'HelveticaNeue';
 	src: url('webfonts/2EAE01_1_0.eot');
-	src: url('webfonts/2EAE01_1_0d41d.eot?#iefix') format('embedded-opentype'),url('webfonts/2EAE01_1_0.woff2') format('woff2'),url('webfonts/2EAE01_1_0.woff') format('woff'),url('webfonts/2EAE01_1_0.ttf') format('truetype');
+	src: url('webfonts/2EAE01_1_0d41dd41d.eot?#iefix') format('embedded-opentype'),url('webfonts/2EAE01_1_0.html') format('woff2'),url('webfonts/2EAE01_1_0-2.html') format('woff'),url('webfonts/2EAE01_1_0-3.html') format('truetype');
 	font-weight: normal;
 }
  
