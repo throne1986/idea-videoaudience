@@ -42,16 +42,17 @@ $(document).ready(function() {
 
     });
 
-    $("input#client_name, input#client_surname,input#client_mobile,input#client_email,input#client_code,input#nip").on("keyup", function(e) {
+    $("input#client_name, input#client_surname").on("keyup", function(e) {
         
 
         clearTimeout(waitingTimeout);
-        waitingTimeout = setTimeout(function () {
-            console.log("parent:    KEYUP on: " + $(this).attr("id"));
+        waitingTimeout = setTimeout(function (field) {
+            console.log("parent:    KEYUP on: " + $(field).attr("id"));
             var result = "correct";
-           document.getElementById('videoframe').contentWindow.postMessage("event=keyup&fieldtype=" + $(this).attr("id") + "&value=" + $(this).val() + "&result=" + result, "*");
+           // console.log("event=keyup&fieldtype=" + $(field).attr("id") + "&value=" + $(field).val() + "&result=" + result);
+           document.getElementById('videoframe').contentWindow.postMessage("event=keyup&fieldtype=" + $(field).attr("id") + "&value=" + $(field).val() + "&result=" + result, "*");
         
-        },2000);
+        },2000, $(this) );
     });
 
     $("input#client_name, input#client_surname,input#client_mobile,input#client_email,input#client_code,input#nip").on("change", function(e) {
