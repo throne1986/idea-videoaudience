@@ -1,8 +1,11 @@
    // creating stage variables for animation
    var stage = null;
    var timeline = null;
+
    var audioArray = [];
+
    var autoplay = true;
+   var inputSelect = document.getElementById("client_name");
 
    var moviePowitalny = "https://skodavideo.s3-eu-west-1.amazonaws.com/skoda_gos_1168_m_11549.mp4";
    var movieCzekanie1 = "./videos/formularz_1/czekanie_1.mp4"
@@ -25,7 +28,9 @@
    var movieThanks = "./videos/formularz_1/wyslij.mp4"
    var movieSendData = "./videos/formularz_1/wyslij.mp4"
 
+
    var stateplayer = "przywitanie";
+
    function init() {
        //define global variables
        var welcomeMovie1 = "./videos/formularz_1/przywitanie_5-10_konto.mp4"
@@ -35,6 +40,8 @@
        var messageTime = new Date().getHours();
        var welcomeMsg = "";
        var vid = " ";
+
+
        //if statements to play a video a certain time in a day .
        if (messageTime >= 5 && messageTime < 12) {
            welcomeMsg = "early bird";
@@ -48,10 +55,16 @@
            welcomeMsg = "night owl";
            vid = welcomeMovie3;
        }
+       ////}, 1000 * 60);
+
+
        //call the function to play a video
        playVideo(vid);
+
+       //  console.log("Hello! Your welcome message is " + welcomeMsg + " " + vid)
        var autoSelectInputName = document.getElementById('playervideo');
    }
+
 
    function resizeFunction() {
        $("#videowrapper").height($("#videowrapper").width() * 3 / 4);
@@ -72,7 +85,16 @@
 
        switch (event) {
            case "focus":
+               //    if (!inputsFocusCounters[fieldtype]) inputsFocusCounters[fieldtype] = 0;
+               //    inputsFocusCounters[fieldtype]++;
+               //    console.log(inputsFocusCounters[fieldtype]);
+
+               //    if (inputsFocusCounters[fieldtype] > 1) {
+               //        sayWaiting();
+               //    } else {
                sayAbountField(fieldtype);
+               // }
+               //openHitsVideo("client_surnameSlide");
                break;
            case "change":
 
@@ -85,6 +107,11 @@
                        sayFieldValidationError(fieldtype);
                        console.log("iframe: " + event + " / " + fieldtype + " - error");
                        break;
+
+                       // case "correct":
+                       //     console.log("iframe: " + event + " / " + fieldtype + " - correct");
+                       //     break;
+
                    default:
 
                        break;
@@ -104,6 +131,9 @@
                break;
            default:
 
+
+
+
                break;
 
        }
@@ -111,12 +141,16 @@
 
 
    var sayWaitingVideo = "./videos/formularz_1/czekanie_1.mp4";
+
+
    var sayFieldNameVideos = [
        "./videos/formularz_1/zaczepka_jeszcze_sie_zastanawiasz_zycie_ucieka_wypelnij_formularz.mp4",
        "./videos/formularz_1/wachasz_sie_uzupelnij_formularz_i_zobacz_jak_ideabank_pomaga_przedsiebiorcom.mp4",
        "./videos/formularz_1/wow_az_takie_niezdecydowanie.mp4",
        "./videos/formularz_1/zakochales_sie_bo_podobno_oni_czasu_nie_licza.mp4"
    ];
+
+
 
    function sayWaiting() {
        videoElement = document.getElementById('playervideo');
@@ -126,6 +160,8 @@
 
 
    }
+
+
 
    var sayAbountVideos = [];
    sayAbountVideos['client_name'] = "./videos/formularz_1/imie_to_proste_wpisz_swoje_imie.mp4";
@@ -145,6 +181,8 @@
    function sayOyOyOy() {
        playVideo(oyoyoyVideo);
    }
+
+
    var sayFieldValidationErrorVideos = [];
    sayFieldValidationErrorVideos['client_name'] = "./videos/formularz_1/ojojoj.mp4";
    sayFieldValidationErrorVideos['client_surname'] = "./videos/formularz_1/ojojoj.mp4";
@@ -169,7 +207,13 @@
    var params = null;
    var audioLoaded = false;
 
+
    // when video ends catch it and close iframe
+
+
+
+ 
+
    function disableIframeOnPhone() {
        // parentpostmessage nie wysyłaj mi sdarzen i ukryj iframe z video
        var vid = document.getElementById("playervideo");
@@ -178,6 +222,8 @@
        window.parent.postMessage("event=closeiframe", "*");
 
    }
+
+
    function checkIfAllLoaded() {
        if (imageLoaded == true) {
            for (var audio in audioArray) {
@@ -310,47 +356,51 @@
 
    $(document).ready(function () {
 
-       init();
+    init();
 
-       $("#playervideo")[0].muted = true;
+    $("#playervideo")[0].muted = true;
 
-       var md = new MobileDetect(window.navigator.userAgent);
+    var md = new MobileDetect(window.navigator.userAgent);
 
-       //alert(md.phone());
-       if (md.phone() != null) {
-           var vid = document.getElementById("playervideo");
-           vid.addEventListener("ended", disableIframeOnPhone);
-       }
-
-
-       document.getElementById('playervideo').addEventListener('ended', function (e) {
-
-           if (stateplayer == "powitanie") {
-               stateplayer = "zaczepki";
-               setTimeout(function () {
-                   sayWaiting();
-               }, 2000);
-           } else if (stateplayer == "zaczepki") {
-               stateplayer = "zaczepki";
-               setTimeout(function () {
-                   sayWaiting();
-               }, 2000);
-           }
-
-           console.log("video ended");
-           playVideo(movieCzekanie3);
-       })
+    //alert(md.phone());
+    if (md.phone() != null) {
+        var vid = document.getElementById("playervideo");
+        vid.addEventListener("ended", disableIframeOnPhone);
+    }
 
 
-       document.getElementById('playervideo').addEventListener('timeupdate', function (e) {
-           if (stateplayer == "przywitanie" && !$("#playervideo").hasClass("autoselectname")) {
-               if (document.getElementById('playervideo').currentTime > 5) {
-                   console.log("Zaselektuj pole imie");
-                   $("#playervideo").addClass("autoselectname");
-                   var inputSelect = document.getElementById('client_name');
-                   console.log(inputSelect);
-               }
-           }
+    document.getElementById('playervideo').addEventListener('ended', function (e) {
 
-       })
-   });
+        if (stateplayer == "powitanie") {
+            stateplayer = "zaczepki";
+            setTimeout(function () {
+                sayWaiting();
+            }, 2000);
+        } else if (stateplayer == "zaczepki") {
+            stateplayer = "zaczepki";
+            setTimeout(function () {
+                sayWaiting();
+            }, 2000);
+        }
+
+        console.log("video ended");
+        playVideo(movieCzekanie3);       
+    })
+
+
+    document.getElementById('playervideo').addEventListener('timeupdate', function (e) {
+     if(stateplayer=="przywitanie" && !$("#playervideo").hasClass("autoselectname") ) {
+         if(document.getElementById('playervideo').currentTime >  5) {
+             console.log("Zaselektuj pole imie");
+             $("#playervideo").addClass("autoselectname");
+             var inputSelect =document.getElementById('client_name');
+             console.log(inputSelect);
+         }
+     }
+       
+ })
+
+
+
+
+});
